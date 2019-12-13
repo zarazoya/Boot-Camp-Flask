@@ -18,7 +18,6 @@ app = Flask(__name__)
 @app.route("/getapi")
 def getapi():
     conn = sq.connect("ApiDatabase.db")
-    #creating database file with the name UsmanDataBase
     c = conn.cursor()
     c.execute("SELECT * FROM employee")
     data = c.fetchall()
@@ -26,8 +25,7 @@ def getapi():
 
 @app.route("/getsingleapi/<idx>",methods=['GET'])
 def getsingleapi(idx):
-    conn = sq.connect("ApiDatabase.db")
-    #creating database file with the name UsmanDataBase
+    conn = sq.connect("ApiDatabase.db")  
     c = conn.cursor()
     c.execute("SELECT * FROM employee WHERE id = ?",(idx,))
     data = c.fetchall()
@@ -40,7 +38,6 @@ def postapi(idx,title,desc,done):
     desc = desc
     done = done
     conn = sq.connect("ApiDatabase.db")
-    #creating database file with the name UsmanDataBase
     c = conn.cursor()
     c.execute("INSERT INTO employee VALUES(?,?,?,?)",(idx,title,desc,done))
     conn.commit()
@@ -49,11 +46,18 @@ def postapi(idx,title,desc,done):
 @app.route("/putapi/<idx>/<title>/<value>",methods=['PUT'])
 def putapi(idx,title,value):
     conn = sq.connect("ApiDatabase.db")
-    #creating database file with the name UsmanDataBase
     c = conn.cursor()
     c.execute("UPDATE employee SET title=? where id =? ",(value,idx))
     conn.commit()
     return jsonify({"result":"updated"})
+
+@app.route("/deleteapi/<idx>",methods=['DELETE'])
+def deleteapi(idx):
+    conn = sq.connect("ApiDatabase.db")
+    c = conn.cursor()
+    c.execute("DELETE FROM employee WHERE id =(?) ",(idx,))
+    conn.commit()
+    return jsonify({"result":"deleted"})
 
 if __name__ == "__main__":
     app.run(debug=True)
