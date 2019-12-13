@@ -62,6 +62,11 @@ def UpdateData(id, key, value):
     else:
         return jsonify({"RESULT"})
 
+#DELETE API -- DELETE 
+@app.route("/DELETEDATA/<id>", methods = ['DELETE'])
+def DeleteData(id):
+    x = collection.delete_one({'id': id})
+
 
 if __name__ == "__main__":
     app.run(debug= True)
