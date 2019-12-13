@@ -33,6 +33,27 @@ def getsingleapi(idx):
     data = c.fetchall()
     return jsonify({"data":data})
 
+@app.route("/postapi/<idx>/<title>/<desc>/<done>",methods=['POST'])
+def postapi(idx,title,desc,done):
+    idx = idx
+    title = title
+    desc = desc
+    done = done
+    conn = sq.connect("ApiDatabase.db")
+    #creating database file with the name UsmanDataBase
+    c = conn.cursor()
+    c.execute("INSERT INTO employee VALUES(?,?,?,?)",(idx,title,desc,done))
+    conn.commit()
+    return jsonify({"result":"added"})
+
+@app.route("/putapi/<idx>/<title>/<value>",methods=['PUT'])
+def putapi(idx,title,value):
+    conn = sq.connect("ApiDatabase.db")
+    #creating database file with the name UsmanDataBase
+    c = conn.cursor()
+    c.execute("UPDATE employee SET title=? where id =? ",(value,idx))
+    conn.commit()
+    return jsonify({"result":"updated"})
 
 if __name__ == "__main__":
     app.run(debug=True)
