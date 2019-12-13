@@ -53,7 +53,7 @@ def POSTDATA(id, title, desc, done):
         return jsonify({"RESULT" : "FALSE"})
 
 #UPDATE API -- PUT
-@app.route('/UPDATEDATA/<id>/<key>/<value>', method = ['PUT'])
+@app.route('/UPDATEDATA/<id>/<key>/<value>', methods = ['PUT'])
 def UpdateData(id, key, value):
     Update_data = {key: value}
     x = collection.update_one({'id': id}, {'$set' : Update_data})
@@ -66,6 +66,10 @@ def UpdateData(id, key, value):
 @app.route("/DELETEDATA/<id>", methods = ['DELETE'])
 def DeleteData(id):
     x = collection.delete_one({'id': id})
+    if x:
+        return jsonify({"RESULT": "TRUE"})
+    else:
+        return jsonify({"RESULT": "FALSE"})
 
 
 if __name__ == "__main__":
