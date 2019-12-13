@@ -37,6 +37,16 @@ def GetSingleData(idx):
     print(data)
     return jsonify(data)
 
+#POST API
+@app.route('/POSTDATA/<id>/<title>/<desc>/<done>', methods= ["POST"])
+def POSTDATA(id, title, desc, done):
+    data = {
+        'id' : id,
+        "title" : title,
+        'description': desc,
+        "done": done
+    }
+
 
 if __name__ == "__main__":
     app.run(debug= True)
