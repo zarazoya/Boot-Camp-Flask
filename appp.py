@@ -46,6 +46,21 @@ def POSTDATA(id, title, desc, done):
         'description': desc,
         "done": done
     }
+    x = collection.insert_one(data)
+    if x:
+        return jsonify({'RESULT' : "TRUE"})
+    else:
+        return jsonify({"RESULT" : "FALSE"})
+
+#UPDATE API -- PUT
+@app.route('/UPDATEDATA/<id>/<key>/<value>', method = ['PUT'])
+def UpdateData(id, key, value):
+    Update_data = {key: value}
+    x = collection.update_one({'id': id}, {'$set' : Update_data})
+    if x:
+        return jsonify({"RESULT" : "TRUE"})
+    else:
+        return jsonify({"RESULT"})
 
 
 if __name__ == "__main__":
